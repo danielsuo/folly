@@ -6,7 +6,7 @@ if EXCEPTION_TRACER
 MAYBE_EXCEPTION_TRACER = experimental/exception_tracer
 endif
 
-SUBDIRS = . experimental $(MAYBE_INIT) test io/test experimental/io/test \
+SUBDIRS = . experimental $(MAYBE_INIT) \
 	  $(MAYBE_EXCEPTION_TRACER)
 
 ACLOCAL_AMFLAGS = -I m4
@@ -23,8 +23,7 @@ noinst_LTLIBRARIES = \
 	libfollybase.la
 
 lib_LTLIBRARIES = \
-	libfolly.la \
-	libfollybenchmark.la
+	libfolly.la
 
 follyincludedir = $(includedir)/folly
 
@@ -189,7 +188,6 @@ nobase_follyinclude_HEADERS = \
 	futures/detail/Core.h \
 	futures/detail/FSM.h \
 	futures/detail/Types.h \
-	futures/test/TestExecutor.h \
 	gen/Base.h \
 	gen/Base-inl.h \
 	gen/Combine.h \
@@ -256,21 +254,6 @@ nobase_follyinclude_HEADERS = \
 	io/async/TimeoutManager.h \
 	io/async/VirtualEventBase.h \
 	io/async/WriteChainAsyncTransportWrapper.h \
-	io/async/test/AsyncSSLSocketTest.h \
-	io/async/test/AsyncSocketTest2.h \
-	io/async/test/BlockingSocket.h \
-	io/async/test/MockAsyncSocket.h \
-	io/async/test/MockAsyncServerSocket.h \
-	io/async/test/MockAsyncSSLSocket.h \
-	io/async/test/MockAsyncTransport.h \
-	io/async/test/MockAsyncUDPSocket.h \
-	io/async/test/MockTimeoutManager.h \
-	io/async/test/ScopedBoundPort.h \
-	io/async/test/SocketPair.h \
-	io/async/test/TestSSLServer.h \
-	io/async/test/TimeUtil.h \
-	io/async/test/UndelayedDestruction.h \
-	io/async/test/Util.h \
 	json.h \
 	Lazy.h \
 	LifoSem.h \
@@ -373,13 +356,6 @@ nobase_follyinclude_HEADERS = \
 	String-inl.h \
 	Subprocess.h \
 	Synchronized.h \
-	test/FBStringTestBenchmarks.cpp.h \
-	test/FBVectorTestBenchmarks.cpp.h \
-	test/function_benchmark/benchmark_impl.h \
-	test/function_benchmark/test_functions.h \
-	test/SynchronizedTestLib.h \
-	test/SynchronizedTestLib-inl.h \
-	test/TestUtils.h \
 	ThreadCachedArena.h \
 	ThreadCachedInt.h \
 	ThreadId.h \
@@ -448,7 +424,6 @@ libfolly_la_SOURCES = \
 	futures/ManualExecutor.cpp \
 	futures/QueuedImmediateExecutor.cpp \
 	futures/ThreadWheelTimekeeper.cpp \
-	futures/test/TestExecutor.cpp \
 	detail/Futex.cpp \
 	detail/StaticSingletonManager.cpp \
 	detail/ThreadLocalDetail.cpp \
@@ -483,9 +458,6 @@ libfolly_la_SOURCES = \
 	io/async/VirtualEventBase.cpp \
 	io/async/HHWheelTimer.cpp \
 	io/async/TimeoutManager.cpp \
-	io/async/test/ScopedBoundPort.cpp \
-	io/async/test/SocketPair.cpp \
-	io/async/test/TimeUtil.cpp \
 	io/async/ssl/OpenSSLUtils.cpp \
 	io/async/ssl/SSLErrors.cpp \
 	json.cpp \
@@ -618,10 +590,6 @@ libfolly_la_LDFLAGS = $(AM_LDFLAGS) -version-info $(LT_VERSION) -lssl
 FingerprintTables.cpp: generate_fingerprint_tables
 	./generate_fingerprint_tables
 CLEANFILES += FingerprintTables.cpp
-
-libfollybenchmark_la_SOURCES = Benchmark.cpp
-libfollybenchmark_la_LIBADD = libfolly.la
-libfollybenchmark_la_LDFLAGS = $(AM_LDFLAGS) -version-info $(LT_VERSION)
 
 # install pkg-config metadata file
 pkgconfigdir = $(libdir)/pkgconfig
